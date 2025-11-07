@@ -1,6 +1,6 @@
 # 🧠 Diplomatura en Análisis de Datos
 
-Este proyecto forma parte de la **Diplomatura en Análisis de Datos**, y tiene como objetivo practicar el uso de **SQL Server**, **ETL** y **análisis de datos** utilizando archivos CSV y Docker sobre macOS.
+Esta  **Diplomatura**, brinda una base sólida en **análisis de datos**, enfocada en el uso práctico de herramientas como **SQL** y **Power BI**.
 
 ---
 
