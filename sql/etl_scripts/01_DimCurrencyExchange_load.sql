@@ -42,12 +42,6 @@ SELECT
     TRY_CAST([Date] AS DATE),
     UPPER(LTRIM(RTRIM([FromCurrency]))),
     UPPER(LTRIM(RTRIM([ToCurrency]))),
-    -- TRY_CAST(REPLACE([Exchange], ',', '.') AS DECIMAL(18,5))
-    -- 9999.99999 -- Valor temporal para evitar errores de conversión
-    --  ISNULL(
-    --     TRY_CAST(REPLACE([Exchange], ',', '.') AS DECIMAL(18,5)),
-    --     9999.99999
-    -- )
     ISNULL(
         TRY_CAST(
             REPLACE(
