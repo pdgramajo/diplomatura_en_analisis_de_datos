@@ -1,0 +1,16 @@
+14.0
+14
+1       SQLCHAR     0       0       ","     1     ProductKey              ""
+2       SQLCHAR     0       0       ","     2     ProductCode             ""
+3       SQLCHAR     0       0       ","     3     ProductName             ""
+4       SQLCHAR     0       0       ","     4     Manufacturer            ""
+5       SQLCHAR     0       0       ","     5     Brand                   ""
+6       SQLCHAR     0       0       ","     6     Color                   ""
+7       SQLCHAR     0       0       ","     7     UnitMeasure             ""
+8       SQLCHAR     0       0       ","     8     Weight                  ""
+9       SQLCHAR     0       0       ","     9     Price                   ""
+10      SQLCHAR     0       0       ","     10    ModelNumber             ""
+11      SQLCHAR     0       0       ","     11    CategoryKey             ""
+12      SQLCHAR     0       0       ","     12    CategoryName            ""
+13      SQLCHAR     0       0       ","     13    SubcategoryKey          ""
+14      SQLCHAR     0       0       "\r\n"  14    SubcategoryName         ""
