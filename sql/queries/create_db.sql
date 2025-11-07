@@ -4,3 +4,6 @@ GO
 
 CREATE DATABASE ContosoDB;
 GO
+
+USE ContosoDB;
+GO
