@@ -16,7 +16,7 @@ services:
       - azuresqledge_ext:/var/opt/mssql-extensibility
       - azuresqledge_ext_data:/var/opt/mssql-extensibility/data
       - azuresqledge_ext_log:/var/opt/mssql-extensibility/log
-      - azuresqledge_csv:/csv
+      - ./data:/data #monta la carpeta data del proyecto al contenedor
 
 volumes:
   azuresqledge_data:
@@ -27,5 +27,3 @@ volumes:
     name: azuresqledge_ext_data
   azuresqledge_ext_log:
     name: azuresqledge_ext_log
-  azuresqledge_csv:
-    name: azuresqledge_csv

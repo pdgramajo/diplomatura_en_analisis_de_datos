@@ -1,0 +1,6 @@
+IF DB_ID('ContosoDB') IS NOT NULL
+    DROP DATABASE ContosoDB;
+GO
+
+CREATE DATABASE ContosoDB;
+GO
