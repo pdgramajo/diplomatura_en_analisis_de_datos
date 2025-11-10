@@ -1,0 +1,7 @@
+.env
+.DS_Store
+# optionally ignore local mssql volume directories (managed by docker)
+azuresqledge_data/
+azuresqledge_ext/
+azuresqledge_ext_data/
+azuresqledge_ext_log/

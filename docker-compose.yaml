@@ -5,9 +5,11 @@ services:
     restart: unless-stopped
     ports:
       - "1433:1433"
+    env_file:
+      - .env
     environment:
       ACCEPT_EULA: "1"
-      MSSQL_SA_PASSWORD: "yourStrong#Password"
+      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD}"
     cap_add:
       - SYS_PTRACE
     volumes:
