@@ -1,0 +1,66 @@
+## .gitignore - Diplomatura en Análisis de Datos
+# Generated to ignore local, IDE and OS artifacts, virtualenvs and caches
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Package / build
+build/
+dist/
+*.egg-info/
+
+# Logs
+*.log
+*.out
+*.err
+logs/
+
+# Test and coverage
+.pytest_cache/
+coverage/
+htmlcov/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node
+node_modules/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Docker compose overrides
+docker-compose.override.yml
+
+# Editor temporary files
+*~
+
+# System
+.DS_Store
+.Trash-
+.cache/
+
+# SQL server / database files (avoid checking in any generated DB files)
+*.mdf
+*.ldf
