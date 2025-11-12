@@ -1,7 +1,7 @@
 services:
-  azuresqledge:
-    image: mcr.microsoft.com/azure-sql-edge
-    container_name: azuresqledge
+  sqlserver2022:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver2022
     restart: unless-stopped
     ports:
       - "1433:1433"
@@ -12,18 +12,9 @@ services:
       - SYS_PTRACE
     volumes:
       - ./backups:/var/opt/mssql/backups #necesita ser asi se guarda el .bak en la carpeta backups del proyecto
-      - azuresqledge_data:/var/opt/mssql
-      - azuresqledge_ext:/var/opt/mssql-extensibility
-      - azuresqledge_ext_data:/var/opt/mssql-extensibility/data
-      - azuresqledge_ext_log:/var/opt/mssql-extensibility/log
+      - sqlserver2022_data:/var/opt/mssql
       - ./data:/data #monta la carpeta data del proyecto al contenedor
 
 volumes:
-  azuresqledge_data:
-    name: azuresqledge_data
-  azuresqledge_ext:
-    name: azuresqledge_ext
-  azuresqledge_ext_data:
-    name: azuresqledge_ext_data
-  azuresqledge_ext_log:
-    name: azuresqledge_ext_log
+  sqlserver2022_data:
+    name: sqlserver2022_data
