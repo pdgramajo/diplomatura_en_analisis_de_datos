@@ -1,0 +1,163 @@
+//////////////////////////////////////////////////////////////
+// DIM TABLES
+//////////////////////////////////////////////////////////////
+
+Table DimCustomer {
+  CustomerKey int [pk]
+  GeoAreaKey int
+  StartDT datetime
+  EndDT datetime
+  Continent varchar
+  Gender varchar
+  Title varchar
+  GivenName varchar
+  MiddleInitial varchar
+  Surname varchar
+  StreetAddress varchar
+  City varchar
+  State varchar
+  StateFull varchar
+  ZipCode varchar
+  Country varchar
+  CountryFull varchar
+  Birthday date
+  Age int
+  Occupation varchar
+  Company varchar
+  Vehicle varchar
+  Latitude float
+  Longitude float
+}
+
+Table DimStore {
+  StoreKey int [pk]
+  StoreCode int
+  GeoAreaKey int
+  CountryCode varchar
+  CountryName varchar
+  State varchar
+  OpenDate date
+  CloseDate date
+  Description varchar
+  SquareMeters int
+  Status varchar
+}
+
+Table DimProduct {
+  ProductKey int [pk]
+  ProductCode varchar
+  ProductName varchar
+  Manufacturer varchar
+  Brand varchar
+  Color varchar
+  WeightUnit varchar
+  Weight float
+  Cost float
+  Price float
+  CategoryKey int
+  CategoryName varchar
+  SubCategoryKey int
+  SubCategoryName varchar
+}
+
+Table DimDate {
+  Date date [pk]
+  DateKey int
+  Year int
+  YearQuarter varchar
+  YearQuarterNumber int
+  Quarter varchar
+  YearMonth varchar
+  YearMonthShort varchar
+  YearMonthNumber int
+  Month varchar
+  MonthShort varchar
+  MonthNumber int
+  DayOfWeek varchar
+  DayOfWeekShort varchar
+  DayOfWeekNumber int
+  WorkingDay int
+  WorkingDayNumber int
+}
+
+Table DimCurrencyExchange {
+  Date date
+  FromCurrency varchar
+  ToCurrency varchar
+  Exchange float
+
+  Note: "Composite PK Date + FromCurrency + ToCurrency"
+}
+
+//////////////////////////////////////////////////////////////
+// FACT TABLES
+//////////////////////////////////////////////////////////////
+
+Table FactOrders {
+  OrderKey int [pk]
+  CustomerKey int
+  StoreKey int
+  OrderDate date
+  DeliveryDate date
+  CurrencyCode varchar
+}
+
+Table FactOrderRows {
+  OrderKey int
+  LineNumber int
+  ProductKey int
+  Quantity float
+  UnitPrice float
+  NetPrice float
+  UnitCost float
+
+  indexes {
+    (OrderKey, LineNumber) [pk]
+  }
+}
+
+Table FactSales {
+  OrderKey int
+  LineNumber int
+  OrderDate date
+  DeliveryDate date
+  CustomerKey int
+  StoreKey int
+  ProductKey int
+  Quantity float
+  UnitPrice float
+  NetPrice float
+  UnitCost float
+  CurrencyCode varchar
+  ExchangeRate float
+
+  indexes {
+    (OrderKey, LineNumber) [pk]
+  }
+}
+
+//////////////////////////////////////////////////////////////
+// RELATIONSHIPS
+//////////////////////////////////////////////////////////////
+
+Ref: FactOrders.CustomerKey > DimCustomer.CustomerKey
+Ref: FactOrders.StoreKey > DimStore.StoreKey
+Ref: FactOrders.OrderDate > DimDate.Date
+Ref: FactOrders.DeliveryDate > DimDate.Date
+
+Ref: FactOrderRows.OrderKey > FactOrders.OrderKey
+Ref: FactOrderRows.ProductKey > DimProduct.ProductKey
+
+Ref: FactSales.OrderKey > FactOrders.OrderKey
+Ref: FactSales.ProductKey > DimProduct.ProductKey
+Ref: FactSales.CustomerKey > DimCustomer.CustomerKey
+Ref: FactSales.StoreKey > DimStore.StoreKey
+Ref: FactSales.OrderDate > DimDate.Date
+Ref: FactSales.DeliveryDate > DimDate.Date
+
+// Opcional — solo si querés usar tipos de cambio desde la dimensión
+Ref: FactOrders.CurrencyCode > DimCurrencyExchange.FromCurrency
+Ref: FactOrders.OrderDate > DimCurrencyExchange.Date
+
+Ref: FactSales.CurrencyCode > DimCurrencyExchange.FromCurrency
+Ref: FactSales.OrderDate > DimCurrencyExchange.Date
