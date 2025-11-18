@@ -1,0 +1,160 @@
+// https://dbdiagram.io
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table DimCurrencyExchange {
+    ExchangeDate date [primary key, not null]
+    FromCurrency char(3) [primary key, not null]
+    ToCurrency char(3) [primary key, not null]
+    ExchangeRate decimal(18,5) [not null]
+    indexes {
+      (ExchangeDate, FromCurrency, ToCurrency) [pk]
+    }
+}
+
+Table DimCustomer {
+    CustomerKey int [primary key, not null]
+    GeoAreaKey int
+    StartDT date
+    EndDT date
+    Continent nvarchar(50)
+    Gender nvarchar(20)
+    Title nvarchar(20)
+    GivenName nvarchar(100)
+    MiddleInitial char(10)
+    Surname nvarchar(100)
+    StreetAddress nvarchar(255)
+    City nvarchar(100)
+    State nvarchar(50)
+    StateFull nvarchar(255)
+    ZipCode nvarchar(20)
+    Country char(10)
+    CountryFull nvarchar(255)
+    Birthday date
+    Age int
+    Occupation nvarchar(255)
+    Company nvarchar(255)
+    Vehicle nvarchar(255)
+    Latitude decimal(10,6)
+    Longitude decimal(10,6)
+}
+
+
+Table DimProduct {
+    ProductKey int [primary key, not null]
+    ProductCode varchar(20)
+    ProductName varchar(100)
+    Manufacturer varchar(50)
+    Brand varchar(50)
+    Color varchar(20)
+    WeightUnit varchar(50)
+    Weight decimal(10,2)
+    Cost decimal(18,2)
+    Price decimal(18,2)
+    CategoryKey int
+    CategoryName varchar(50)
+    SubCategoryKey int
+    SubCategoryName varchar(50)
+}
+
+Table DimStore {
+    StoreKey int [primary key, not null]
+    StoreCode varchar(20)
+    GeoAreaKey int
+    CountryCode char(2)
+    CountryName varchar(50)
+    State varchar(100)
+    OpenDate date
+    CloseDate date
+    Description varchar(255)
+    SquareMeters decimal(10,2)
+    Status varchar(20)
+}
+
+Table DimDate {
+    DateKey int [primary key, not null]
+    Date date [not null]
+    Year int
+    YearQuarter nvarchar(10)
+    YearQuarterNumber int
+    Quarter nvarchar(5)
+    YearMonth nvarchar(20)
+    YearMonthShort nvarchar(15)
+    YearMonthNumber int
+    Month nvarchar(15)
+    MonthShort nvarchar(10)
+    MonthNumber int
+    DayOfWeek nvarchar(15)
+    DayOfWeekShort nvarchar(10)
+    DayOfWeekNumber int
+    WorkingDay bit
+    WorkingDayNumber int
+}
+
+Table FactOrderRows {
+    OrderKey int [not null]
+    LineNumber int [not null]
+    ProductKey int [not null]
+    Quantity decimal(18,2) [not null]
+    UnitPrice decimal(18,4) [not null]
+    NetPrice decimal(18,4) [not null]
+    UnitCost decimal(18,4) [not null]
+    indexes {
+      (OrderKey, LineNumber) [pk]
+    }
+}
+
+Table FactOrders {
+    OrderKey int [primary key, not null]
+    CustomerKey int
+    StoreKey int
+    OrderDate date
+    DeliveryDate date
+    CurrencyCode varchar(10)
+}
+
+Table FactSales {
+    OrderKey int [not null]
+    LineNumber int [not null]
+    OrderDate date
+    DeliveryDate date
+    CustomerKey int
+    StoreKey int
+    ProductKey int
+    Quantity int
+    UnitPrice decimal(18,4)
+    NetPrice decimal(18,4)
+    UnitCost decimal(18,4)
+    CurrencyCode varchar(10)
+    ExchangeRate decimal(18,5)
+    indexes {
+      (OrderKey, LineNumber) [pk]
+    }
+}
+
+////////////////////////////////////////////////////
+// RELACIONES 
+////////////////////////////////////////////////////
+
+// -------------------------
+// FactOrders → Dimensiones
+// -------------------------
+
+Ref: FactOrders.CustomerKey > DimCustomer.CustomerKey
+Ref: FactOrders.StoreKey > DimStore.StoreKey
+
+// -------------------------
+// FactOrderRows → FactOrders / DimProduct
+// -------------------------
+
+Ref: FactOrderRows.OrderKey > FactOrders.OrderKey
+Ref: FactOrderRows.ProductKey > DimProduct.ProductKey
+
+// -------------------------
+// FactSales → Dimensiones / FactOrders
+// -------------------------
+
+Ref: FactSales.CustomerKey > DimCustomer.CustomerKey
+Ref: FactSales.StoreKey > DimStore.StoreKey
+Ref: FactSales.ProductKey > DimProduct.ProductKey
+Ref: FactSales.OrderKey > FactOrders.OrderKey
